@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddScoped<EmployeeAttendanceRepository>();
+builder.Services.AddScoped<EmployeePerformanceRepository>();
 builder.Services.AddSingleton<TokenService>();
 
 // JWT Auth

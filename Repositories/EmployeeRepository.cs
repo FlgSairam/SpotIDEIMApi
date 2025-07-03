@@ -1,7 +1,8 @@
 using Dapper;
-using MySql.Data.MySqlClient;
-using System.Data;
 using DapperAuthApi.Models;
+using MySql.Data.MySqlClient;
+using System;
+using System.Data;
 
 namespace DapperAuthApi.Repositories;
 
@@ -17,8 +18,9 @@ public class EmployeeRepository
     }
 
     private IDbConnection Connection => new MySqlConnection(_connectionString);
- 
- 
+    private static readonly Random random = new Random();
+
+
     public async Task<EmployeeLoginInfo?> GetEmployeeLoginInfoAsync(string mobileNumber)
     {
         using var db = Connection;
@@ -49,13 +51,45 @@ public class EmployeeRepository
         }
         else
         {
-            result.OTP_Code = "4567"; 
+            int randomNumber = random.Next(1000, 10000);
+            result.OTP_Code = randomNumber.ToString(); 
             result.Trx_Code = "00";
             result.Trx_Status = "Successful transaction";
+
+            EmailSender emailSender = new EmailSender();
+
+            await emailSender.SendEmailAsync("sairam.p@fluentgrid.com", "OTP to login into iPower Mobile ", result.OTP_Code + " is your OTP to login into iPower Mobile app. Do not share with anyone.");
+            //"MPPKVVCL ATPM Pre-Paid wallet balance is low. Please top up your wallet to avoid discontinuity of collection on ATPM. Wallet balance available Rs. " + employeelogin.verificationcode + " MPPKVCCL"
+            //"OTP for your iPower Mobile app is " + employeelogin.verificationcode + " OTP is confidential. Please do not share with anyone. OTP will automatically expire within 5 minutes. Fluentgrid"
+            string strSMS = "";
+            strSMS = "OTP for your iPower Mobile app is " + result.OTP_Code + " OTP is confidential. Please do not share with anyone. OTP will automatically expire within 5 minutes. Fluentgrid";
+
+            //await emailSender.SendEmailAsync("sairam.p@fluentgrid.com", "OTP to login into iPower Mobile ", strSMS);
+
+            string strUrl = sendSMS(strSMS, mobileNumber , "1707172889271402713");
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+            HttpClient client = new HttpClient(handler);
+            await client.GetStringAsync(strUrl);
+
         }
 
         return result;
-    } 
-    
+    }
+
+    private string sendSMS(string message, string phoneNo, string template_id)
+    {
+        string strUrl = "";
+        string Password = "india@002";
+        string Msg = message;
+        string userdetails = "sairam.p";
+        string OPTINS = "FGIPWR";
+        string MobileNumber = phoneNo;
+        strUrl = "https://login.bulksmsgateway.in/sendmessage.php?&user=" + userdetails + "&password=" + Password + "&mobile=" + MobileNumber + "&message=" + Msg + "&sender=" + OPTINS + "&type=" + 3 + "&template_id=" + template_id;
+         
+        return strUrl;
+    }
+
+
 }
 
