@@ -1,9 +1,11 @@
+using DapperAuthApi.DBContext;
+using DapperAuthApi.Interfaces;
 using DapperAuthApi.Repositories;
 using DapperAuthApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,11 @@ builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddScoped<EmployeeAttendanceRepository>();
 builder.Services.AddScoped<EmployeePerformanceRepository>();
 builder.Services.AddSingleton<TokenService>();
+builder.Services.AddSingleton<DapperDbContext>();
+builder.Services.AddTransient<IPushNotification, PushNotificationRepository>();
+builder.Services.AddScoped<IAttendanceRepository, PushNotificationRepository>();
+builder.Services.AddHostedService<AttendanceReminderService>();
+builder.Services.AddScoped<ISupervisor, SupervisorRepository>();
 
 // JWT Auth
 var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!);
