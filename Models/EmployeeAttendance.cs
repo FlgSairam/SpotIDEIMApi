@@ -14,7 +14,7 @@ public class EmployeeAttendance
     public string? Attendance_Status { get; set; } // Present, Absent
     public string? Leave_Type { get; set; } // None, Holiday, Sick, Casual
     public string? Sick_DocCopy { get; set; }
-    public string? Absent_Remark { get; set; }
+    public string? Absent_Remark { get; set; } 
     public int QryDate { get; set; }
     public int QryMonth { get; set; }
     public int Created_By { get; set; }

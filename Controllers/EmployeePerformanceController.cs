@@ -1,5 +1,6 @@
 ﻿using DapperAuthApi.Models;
 using DapperAuthApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperAuthApi.Controllers;
@@ -16,6 +17,7 @@ public class EmployeePerformanceController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var result = await _repository.GetAllAsync();
@@ -23,14 +25,15 @@ public class EmployeePerformanceController : ControllerBase
     }
 
     [HttpGet("{employee_Id}/{qry_month}")]
+    [Authorize]
     public async Task<IActionResult> GetById(long employee_Id, int qry_month)
     {
         var result = await _repository.GetByIdAsync(employee_Id, qry_month);
         return result == null ? NotFound() : Ok(result);
-    }
-
+    } 
     
     [HttpPost]
+    [Authorize]
     public async Task<EmployeePerformanceResponse> Create(EmployeePerformance entity)
     {
         EmployeePerformanceResponse EmployeePerformance = new EmployeePerformanceResponse();
@@ -39,6 +42,7 @@ public class EmployeePerformanceController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<EmployeePerformanceResponse> Update(long id, EmployeePerformance entity)
     {
         EmployeePerformanceResponse EmployeePerformance = new EmployeePerformanceResponse();
@@ -48,6 +52,7 @@ public class EmployeePerformanceController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<EmployeePerformanceResponse> Delete(long id)
     {
         EmployeePerformanceResponse EmployeePerformance = new EmployeePerformanceResponse();

@@ -18,6 +18,7 @@ public class EmployeePerformance
     public int NoOf_Transaction { get; set; } = 0;
     public decimal Amount_Collected { get; set; } = 0.00m;
     public string? Remark { get; set; }
+    public string? Dashboard_Copy { get; set; }
     public int QryDate { get; set; }
     public int QryMonth { get; set; }
     public int Created_By { get; set; }
