@@ -59,7 +59,17 @@ namespace DapperAuthApi.Repositories
             return result;
         }
 
-       
+        public async Task<object> Getdeviceids()
+        {
+            using var connection = context.CreateConnection();
 
+            string sql = @"
+                SELECT e.employee_id, e.full_name, d.device_Id 
+                FROM eim_employee e
+                LEFT JOIN device_id d ON d.employee_id = e.employee_id";
+
+            var result = await connection.QueryAsync<object>(sql);
+            return result;
+        }
     }
 }

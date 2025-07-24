@@ -50,6 +50,31 @@ namespace iPowerMobileAPI.Controllers
         }
 
         [Authorize]
+        [HttpPost("Getdeviceids")]
+        public async Task<IActionResult> Getdeviceids()
+        {
+
+            if (ModelState.IsValid)
+            {
+                var vData = await _pushNotification.Getdeviceids();
+
+                if (vData != null)
+                {
+                    // If data is found, return it with a 200 OK status
+                    return Ok(vData);
+                }
+                else
+                {
+                    // If data is not found, return a 404 Not Found status
+                    return NotFound();
+                }
+            }
+            // If model state is not valid, return HTTP 400 Bad Request with validation errors
+            return BadRequest(ModelState);
+        }
+
+
+        [Authorize]
         [HttpPost("send")]
         public async Task<IActionResult> SendPushNotification(int employeeFK, string message)
         {
@@ -72,7 +97,7 @@ namespace iPowerMobileAPI.Controllers
             {
                 var pushTicketReq = new PushTicketRequest()
                 {
-                    PushTo = new List<string> { request.ExpoPushToken },
+                    PushTo = new List<string?> { request.ExpoPushToken },
                     PushTitle = request.Title,
                     PushBody = request.Message,
                     PushBadgeCount = request.BadgeCount ?? 1,

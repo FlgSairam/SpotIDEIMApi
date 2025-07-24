@@ -7,7 +7,7 @@
     public class SvAttendance
     {
         public int qrydate { get; set; }
-        public string? reporting_officer_name { get; set; }
+        public long supervisor_fid { get; set; }
     }
 
     public class Emp

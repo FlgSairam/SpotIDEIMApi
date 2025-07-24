@@ -23,6 +23,35 @@ public class EmployeeRepository
     public async Task<EmployeeLoginInfo?> GetEmployeeLoginInfoAsync(string mobileNumber)
     {
         using var db = Connection;
+        string sql = @"SELECT
+                  pid AS employee_Id,
+                  offer_letter_no,
+                  reader_name,
+                  father_name,
+                  date_of_birth,
+                  '2025/07/23' AS date_of_joining,
+                  photograph_url,
+                  blood_group, 
+                  experience_years,
+                  primary_mobile_number,
+                  alternative_mobile_number, 
+                  email_id,
+                  permanent_address,
+                  division_fid,
+                  division_allocated,
+                  supervisor_fid,
+                  supervisor_name,
+                  work_location_fid,
+                  work_location,
+                  position,
+                  'PuVVNL' AS discom,
+                  1 AS discom_fid,
+                  'Active' AS service_status, 
+                  record_status
+                FROM eim_meter_reader_registration 
+                WHERE record_status = 1 
+                  AND primary_mobile_number = @MobileNumber
+                  AND service_status IN ('Active', 'Inactive')";
         string sql = @"SELECT pid,  employee_id, offer_letter_no, CAST(employee_access_id AS CHAR) as employee_access_id, full_name, photograph_url, mobile_number, email, permanent_address, 
           date_of_joining, department, designation, father_name, blood_group, 
           work_location_fid, working_location, discom, discom_fid, division, division_fid,
