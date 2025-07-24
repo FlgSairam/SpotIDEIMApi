@@ -52,7 +52,7 @@ public class EmployeeRepository
                 WHERE record_status = 1 
                   AND primary_mobile_number = @MobileNumber
                   AND service_status IN ('Active', 'Inactive')";
-       
+
 
         var result = await db.QueryFirstOrDefaultAsync<EmployeeLoginInfo>(sql, new { MobileNumber = mobileNumber });
 

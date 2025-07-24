@@ -40,11 +40,11 @@ public class EmployeePerformanceRepository
         string sql = @"INSERT INTO eim_employee_performance 
         (employee_fid, employee_id, performance_date, discom_fid, discom, division_fid, division, 
         work_location_fid, work_location, department, noof_billissued, noof_exeptionbillissued, 
-        noof_transaction, amount_collected, remark, qrydate, qrymonth,  created_by) 
+        noof_transaction, amount_collected, remark, dashboard_copy, qrydate, qrymonth,  created_by) 
         VALUES 
         (@Employee_Fid, @Employee_Id, @Performance_Date, @Discom_Fid, @Discom, @Division_Fid, @Division, 
         @Work_Location_Fid, @Work_Location, @Department, @NoOf_BillIssued, @NoOf_ExceptionBillIssued, 
-        @NoOf_Transaction, @Amount_Collected, @Remark, @QryDate, @QryMonth, @Created_By)";
+        @NoOf_Transaction, @Amount_Collected, @Remark, @Dashboard_Copy, @QryDate, @QryMonth, @Created_By)";
 
         var affected = await db.ExecuteAsync(sql, entity);
 
@@ -74,6 +74,7 @@ public class EmployeePerformanceRepository
             noof_transaction = @NoOf_Transaction,
             amount_collected = @Amount_Collected,
             remark = @Remark,
+            dashboard_copy = @Dashboard_Copy
             qrydate = @QryDate,
             qrymonth = @QryMonth,
             updated_by = @Updated_By

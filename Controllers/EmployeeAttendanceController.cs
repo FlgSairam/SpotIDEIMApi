@@ -1,5 +1,6 @@
 ﻿using DapperAuthApi.Models;
 using DapperAuthApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DapperAuthApi.Controllers;
@@ -16,6 +17,7 @@ public class EmployeeAttendanceController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var result = await _repository.GetAllAsync();
@@ -23,6 +25,7 @@ public class EmployeeAttendanceController : ControllerBase
     }
 
     [HttpGet("{employee_Id}/{qry_month}")]
+    [Authorize]
     public async Task<IActionResult> GetById(long employee_Id, int qry_month)
     {
         var result = await _repository.GetByIdAsync(employee_Id, qry_month);
@@ -31,6 +34,7 @@ public class EmployeeAttendanceController : ControllerBase
 
     
     [HttpPost]
+    [Authorize]
     public async Task<EmployeeAttendanceResponse> Create(EmployeeAttendance entity)
     {
         EmployeeAttendanceResponse employeeAttendance = new EmployeeAttendanceResponse();
@@ -39,6 +43,7 @@ public class EmployeeAttendanceController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<EmployeeAttendanceResponse> Update(long id, EmployeeAttendance entity)
     {
         EmployeeAttendanceResponse employeeAttendance = new EmployeeAttendanceResponse();
@@ -48,6 +53,7 @@ public class EmployeeAttendanceController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<EmployeeAttendanceResponse> Delete(long id)
     {
         EmployeeAttendanceResponse employeeAttendance = new EmployeeAttendanceResponse();
