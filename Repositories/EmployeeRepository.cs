@@ -52,12 +52,7 @@ public class EmployeeRepository
                 WHERE record_status = 1 
                   AND primary_mobile_number = @MobileNumber
                   AND service_status IN ('Active', 'Inactive')";
-        string sql = @"SELECT pid,  employee_id, offer_letter_no, CAST(employee_access_id AS CHAR) as employee_access_id, full_name, photograph_url, mobile_number, email, permanent_address, 
-          date_of_joining, department, designation, father_name, blood_group, 
-          work_location_fid, working_location, discom, discom_fid, division, division_fid,
-          reporting_officer_name, reporting_officer_contact, agency_name, office_address, id_card_validity,  service_status 
-      FROM eim_employee 
-      WHERE service_status='Active' and record_status=1 and mobile_number = @MobileNumber";
+
 
         var result = await db.QueryFirstOrDefaultAsync<EmployeeLoginInfo>(sql, new { MobileNumber = mobileNumber });
 
@@ -184,10 +179,9 @@ public class EmployeeRepository
         string OPTINS = "FGIPWR";
         string MobileNumber = phoneNo;
         strUrl = "https://login.bulksmsgateway.in/sendmessage.php?&user=" + userdetails + "&password=" + Password + "&mobile=" + MobileNumber + "&message=" + Msg + "&sender=" + OPTINS + "&type=" + 3 + "&template_id=" + template_id;
-         
+
         return strUrl;
     }
 
 
 }
-

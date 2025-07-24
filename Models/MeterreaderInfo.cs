@@ -27,7 +27,7 @@ public class EmployeeLoginInfo
     public string? father_name { get; set; }
     public DateTime date_of_birth { get; set; }
     public DateTime date_of_joining { get; set; } 
-    //public string? photograph_url { get; set; }
+    public string? photograph_url { get; set; }
     public string? blood_group { get; set; }
     public int experience_years { get; set; }
     public string? primary_mobile_number { get; set; }
