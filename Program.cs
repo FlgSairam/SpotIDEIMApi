@@ -17,7 +17,7 @@ builder.Services.AddScoped<EmployeeAttendanceRepository>();
 builder.Services.AddScoped<EmployeePerformanceRepository>();
 builder.Services.AddScoped<AppUserRepository>();
 builder.Services.AddScoped<CustomerRepository>();
-
+builder.Services.AddScoped<UserCustomerMappingRepository>();
 
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddSingleton<DapperDbContext>();
