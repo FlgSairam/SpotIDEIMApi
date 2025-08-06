@@ -72,7 +72,7 @@ namespace iPowerMobileAPI.Controllers
             {
                 var pushTicketReq = new PushTicketRequest()
                 {
-                    PushTo = new List<string> { request.ExpoPushToken },
+                    PushTo = new List<string?> { request.ExpoPushToken },
                     PushTitle = request.Title,
                     PushBody = request.Message,
                     PushBadgeCount = request.BadgeCount ?? 1,

@@ -15,6 +15,10 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddScoped<EmployeeAttendanceRepository>();
 builder.Services.AddScoped<EmployeePerformanceRepository>();
+builder.Services.AddScoped<AppUserRepository>();
+builder.Services.AddScoped<CustomerRepository>();
+
+
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddSingleton<DapperDbContext>();
 builder.Services.AddTransient<IPushNotification, PushNotificationRepository>();
@@ -50,6 +54,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
