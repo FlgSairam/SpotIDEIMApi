@@ -43,7 +43,7 @@ namespace DapperAuthApi.Services
 
                             foreach (var token in tokens)
                             {
-                                await SendPushNotificationAsync(token, "Fluentgrid Connect", $"Hi {employee.full_name}, please submit your today attendance.");
+                                await SendPushNotificationAsync(token, "Fluentgrid Services", $"Hi {employee.full_name}, please submit your today attendance.");
                                 _logger.LogInformation("Push sent to {full_name}", employee.full_name);
                             }
                         }
