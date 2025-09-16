@@ -33,38 +33,67 @@ namespace DapperAuthApi.Repositories
         public async Task SaveUserCustomerMappingAsync(long userId, List<long> customerIds, string? modifiedBy)
         {
             using var db = Connection;
-            using var transaction = db.BeginTransaction();
 
             try
             {
+                // Step 1: Soft-delete all current mappings for the user
                 string softDelete = @"
+            UPDATE eim_UserCustomerMapping
+            SET record_status = 0, updated_by = @ModifiedBy, updated_date = NOW()
+            WHERE UserId = @UserId AND record_status = 1";
+
+                await db.ExecuteAsync(softDelete, new { UserId = userId, ModifiedBy = modifiedBy });
+
+                // Step 2: Loop through customer IDs
+                foreach (var customerId in customerIds)
+                {
+                    // Step 2a: Check if mapping already exists
+                    string checkSql = @"
+                SELECT COUNT(*) FROM eim_UserCustomerMapping
+                WHERE UserId = @UserId AND CustomerId = @CustomerId";
+
+                    int count = await db.ExecuteScalarAsync<int>(checkSql, new
+                    {
+                        UserId = userId,
+                        CustomerId = customerId
+                    });
+
+                    if (count > 0)
+                    {
+                        // Step 2b: Reactivate existing mapping
+                        string reactivateSql = @"
                     UPDATE eim_UserCustomerMapping
-                    SET record_status = 0, updated_by = @ModifiedBy, updated_date = NOW()
-                    WHERE UserId = @UserId AND record_status = 1";
+                    SET record_status = 1, updated_by = @ModifiedBy, updated_date = NOW()
+                    WHERE UserId = @UserId AND CustomerId = @CustomerId";
 
-                await db.ExecuteAsync(softDelete, new { UserId = userId, ModifiedBy = modifiedBy }, transaction);
-
-                string insertSql = @"
+                        await db.ExecuteAsync(reactivateSql, new
+                        {
+                            UserId = userId,
+                            CustomerId = customerId,
+                            ModifiedBy = modifiedBy
+                        });
+                    }
+                    else
+                    {
+                        // Step 2c: Insert new mapping
+                        string insertSql = @"
                     INSERT INTO eim_UserCustomerMapping (UserId, CustomerId, created_by)
                     VALUES (@UserId, @CustomerId, @CreatedBy)";
 
-                foreach (var customerId in customerIds)
-                {
-                    await db.ExecuteAsync(insertSql, new
-                    {
-                        UserId = userId,
-                        CustomerId = customerId,
-                        CreatedBy = modifiedBy
-                    }, transaction);
+                        await db.ExecuteAsync(insertSql, new
+                        {
+                            UserId = userId,
+                            CustomerId = customerId,
+                            CreatedBy = modifiedBy
+                        });
+                    }
                 }
-
-                transaction.Commit();
             }
             catch
             {
-                transaction.Rollback();
                 throw;
             }
         }
+
     }
 }
