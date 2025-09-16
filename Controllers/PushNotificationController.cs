@@ -88,7 +88,7 @@ namespace iPowerMobileAPI.Controllers
             var request = new PushNotificationRequest
             {
                 ExpoPushToken = response.FirstOrDefault(), // Use the first token from the list
-                Title = "Fluentgrid Connect",
+                Title = "Fluentgrid Services",
                 Message = message,
                 BadgeCount = 1
             };

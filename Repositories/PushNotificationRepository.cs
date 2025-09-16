@@ -46,14 +46,13 @@ namespace DapperAuthApi.Repositories
             using var connection = context.CreateConnection();
 
             string sql = @"
-                SELECT e.employee_id, e.full_name, d.device_Id 
-                FROM eim_employee e
+                SELECT  e.pid AS employee_id, e.reader_name as full_name, d.device_Id 
+                FROM eim_meter_reader_registration e
                 LEFT JOIN device_id d ON d.employee_id = e.employee_id
                 WHERE NOT EXISTS (
                     SELECT 1 FROM eim_employee_attendance a
-                    WHERE a.employee_id = e.employee_id
-                      AND a.qrydate =@date
-                        )";
+                    WHERE a.employee_id = e.pid
+                      AND a.qrydate =@date)";
 
             var result = await connection.QueryAsync<DeviceToken>(sql, new { date });
             return result;
@@ -64,9 +63,9 @@ namespace DapperAuthApi.Repositories
             using var connection = context.CreateConnection();
 
             string sql = @"
-                SELECT e.employee_id, e.full_name, d.device_Id 
-                FROM eim_employee e
-                LEFT JOIN device_id d ON d.employee_id = e.employee_id";
+                 SELECT  e.pid AS employee_id, e.reader_name as full_name, d.device_Id 
+                 FROM eim_meter_reader_registration e
+                 LEFT JOIN device_id d ON d.employee_id = e.pid";
 
             var result = await connection.QueryAsync<object>(sql);
             return result;
