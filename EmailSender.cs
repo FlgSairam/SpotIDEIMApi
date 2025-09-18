@@ -9,20 +9,12 @@ namespace DapperAuthApi
         public class EmailSender : IEmailSender
         {
             public Task SendEmailAsync(string email, string subject, string htmlMessage)
-            {
-
-                //var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
-                //{
-                //    Credentials = new NetworkCredential("f50f1425f1048e", "06775df6ab573b"),
-                //    EnableSsl = true
-                //};
-                //client.Send("from@example.com", email, subject, htmlMessage);
-
+            { 
                 htmlMessage = htmlMessage.Replace("&amp;", "&");
 
                 var client = new SmtpClient("smtp.office365.com", 587)
                 {
-                    Credentials = new NetworkCredential("internalsystems@fluentgrid.com", "FGIS@17"),
+                    Credentials = new NetworkCredential("internalsystems@fluentgrid.com", "FGL#ipower@$0$25"),
                     EnableSsl = true
                 };
                 // client.Send("internalsystems@fluentgrid.com", email, subject, htmlMessage );

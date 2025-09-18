@@ -12,22 +12,35 @@
 
     public class Emp
     {
-        public long employee_id { get; set; }
+        // New or inherited fields (ensure they're in base class or declare here)
+        public string? employee_id { get; set; }
         public string? full_name { get; set; }
         public string? mobile_number { get; set; }
     }
 
-    public class SvAttendanceResponse:Emp
+    public class SvAttendanceResponse : Emp
     {
-            public string? attendance_status { get; set; }
-            public string? selfieephoto_url { get; set; }
-            public string? leave_type { get; set; }
-            public string? absent_remark { get; set; }
-            public string? sick_doccopy { get; set; }
-            public int qrydate { get; set; }  
-            public string? work_latitude { get; set; }
-            public string? work_longitude { get; set; }
+       
+
+        // Attendance-related
+        public string? attendance_status { get; set; }
+        public string? selfieephoto_url { get; set; }
+        public string? leave_type { get; set; }
+        public string? absent_remark { get; set; }
+        public string? sick_doccopy { get; set; }
+        public int qrydate { get; set; }
+        public string? work_latitude { get; set; }
+        public string? work_longitude { get; set; }
+        public string? attendance_time { get; set; }
+
+        // Supervisor info
+        public string? supervisor_fid { get; set; }
+        public string? supervisor_name { get; set; }
+
+        // Position info
+        public string? position { get; set; }
     }
+
 
     public class SvPerformance: SvAttendance
     {

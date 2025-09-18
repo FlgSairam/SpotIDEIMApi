@@ -48,7 +48,7 @@ namespace DapperAuthApi.Repositories
             string sql = @"
                 SELECT  e.pid AS employee_id, e.reader_name as full_name, d.device_Id 
                 FROM eim_meter_reader_registration e
-                LEFT JOIN device_id d ON d.employee_id = e.employee_id
+                LEFT JOIN device_id d ON d.employee_id = e.pid
                 WHERE NOT EXISTS (
                     SELECT 1 FROM eim_employee_attendance a
                     WHERE a.employee_id = e.pid
