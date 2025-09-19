@@ -4,7 +4,7 @@ using DapperAuthApi.Repositories;
 using DapperAuthApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models;  
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +25,7 @@ builder.Services.AddTransient<IPushNotification, PushNotificationRepository>();
 builder.Services.AddScoped<IAttendanceRepository, PushNotificationRepository>();
 builder.Services.AddHostedService<AttendanceReminderService>();
 builder.Services.AddScoped<ISupervisor, SupervisorRepository>();
+builder.Services.AddScoped<ILocationLog, LocationLogRepository>();
 
 // JWT Auth
 var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!);
