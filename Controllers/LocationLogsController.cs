@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using DapperAuthApi.Interfaces;
+﻿using DapperAuthApi.Interfaces;
 using DapperAuthApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using static Dapper.SqlMapper;
 
 namespace DapperAuthApi.Controllers
@@ -17,13 +18,14 @@ namespace DapperAuthApi.Controllers
             _locationLog = locationLog;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] LocationLog log)
         {
-           
+
             if (ModelState.IsValid)
             {
-                var vData =  await _locationLog.InsertAsync(log); ;
+                var vData = await _locationLog.InsertAsync(log); ;
 
                 if (vData != 0)
                 {
@@ -39,5 +41,23 @@ namespace DapperAuthApi.Controllers
             // If model state is not valid, return HTTP 400 Bad Request with validation errors
             return BadRequest(ModelState);
         }
+
+
+        [Authorize]
+        [HttpGet("by-employee")]
+        public async Task<IActionResult> GetByEmployee([FromQuery] long employeeFid, [FromQuery] int qryDate)
+        {
+            if (employeeFid <= 0 || qryDate <= 0)
+                return BadRequest("Invalid parameters.");
+
+            var logs = await _locationLog.GetByEmployeeAsync(employeeFid, qryDate);
+
+            if (logs == null || !logs.Any())
+                return NotFound("No logs found.");
+
+            return Ok(logs);
+        }
+
+
     }
 }

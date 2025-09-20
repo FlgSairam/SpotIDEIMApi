@@ -1,3 +1,4 @@
+using DapperAuthApi;
 using DapperAuthApi.DBContext;
 using DapperAuthApi.Interfaces;
 using DapperAuthApi.Repositories;
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IAttendanceRepository, PushNotificationRepository>();
 builder.Services.AddHostedService<AttendanceReminderService>();
 builder.Services.AddScoped<ISupervisor, SupervisorRepository>();
 builder.Services.AddScoped<ILocationLog, LocationLogRepository>();
+ 
 
 // JWT Auth
 var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!);

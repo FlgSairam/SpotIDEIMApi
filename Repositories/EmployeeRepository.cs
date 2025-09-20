@@ -1,23 +1,21 @@
 using Dapper;
-using DapperAuthApi.Models;
+using DapperAuthApi.Models; 
 using MySql.Data.MySqlClient;
 using System;
-using System.Data;
+using System.Data; 
 
 namespace DapperAuthApi.Repositories;
-
 public class EmployeeRepository
 {
     private readonly IConfiguration _configuration;
-    private readonly string? _connectionString;
-
+    private readonly string? _connectionString; 
     public EmployeeRepository(IConfiguration configuration)
-    {
+    { 
         _configuration = configuration;
         _connectionString = _configuration.GetConnectionString("DefaultConnection");
     }
 
-    private IDbConnection Connection => new MySqlConnection(_connectionString);
+    private IDbConnection Connection => new MySqlConnection(_connectionString); 
     private static readonly Random random = new Random();
 
     public async Task<EmployeeLoginInfo?> GetEmployeeLoginInfoAsync(string mobileNumber)

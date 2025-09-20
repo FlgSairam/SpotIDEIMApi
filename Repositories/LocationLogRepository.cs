@@ -34,5 +34,24 @@ namespace DapperAuthApi.Repositories
             var newPid = await connection.ExecuteScalarAsync<int>(commandDefinition);
             return newPid;
         }
+
+        public async Task<IEnumerable<LocationLogViewModel>> GetByEmployeeAsync(long employeeFid, int qryDate)
+        {
+            using var connection = _context.CreateConnection();
+
+            var parameters = new DynamicParameters();
+            parameters.Add("p_employee_fid", employeeFid, DbType.Int64);
+            parameters.Add("p_qrydate", qryDate, DbType.Int32);
+
+            var result = await connection.QueryAsync<LocationLogViewModel>(
+                "CALL eim_location_logs_sp_select_byemployee(@p_employee_fid, @p_qrydate);",
+                parameters,
+                commandType: CommandType.Text,  // Note: must use Text because it's a CALL
+                commandTimeout: 120
+            );
+
+            return result;
+        }
+
     }
 }
