@@ -64,5 +64,30 @@ namespace SpotIDEIMApi.Controllers
             return BadRequest(ModelState);
         }
 
+
+        [Authorize]
+        [HttpPost("GetAttendanceCounts")]
+        public async Task<IActionResult> GetAttendanceCounts([FromBody] SvAttendance attendance)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var vData = await _supervisorRepository.GetAttendanceCounts(attendance);
+
+                if (vData != null)
+                {
+                    // If data is found, return it with a 200 OK status
+                    return Ok(vData);
+                }
+                else
+                {
+                    // If data is not found, return a 404 Not Found status
+                    return NotFound();
+                }
+            }
+            // If model state is not valid, return HTTP 400 Bad Request with validation errors
+            return BadRequest(ModelState);
+        }
+
     }
 }
