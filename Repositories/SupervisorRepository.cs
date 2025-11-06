@@ -15,6 +15,7 @@ namespace DapperAuthApi.Repositories
         { 
             _context = context; 
         }
+
         public async Task<List<SvAttendanceResponse>> GetById(SvAttendance id)
         {
             using var connection = _context.CreateConnection();
@@ -36,6 +37,18 @@ namespace DapperAuthApi.Repositories
 
             var commandDefinition = new CommandDefinition("Sup_Emp_PerformanceTrack", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 120);
             var response = await connection.QueryAsync<SvPerformanceResponse>(commandDefinition);
+            return response.ToList();
+        }
+
+        public async Task<List<EmployeeAttendanceCounts>> GetAttendanceCounts(SvAttendance attendance)
+        {
+            using var connection = _context.CreateConnection();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("p_qrydate", attendance.qrydate, DbType.Int32);
+            parameters.Add("p_supervisor_fid", attendance.supervisor_fid, DbType.Int64);
+
+            var commandDefinition = new CommandDefinition("eim_employee_attendance_sp_select_counts", parameters, commandType: CommandType.StoredProcedure, commandTimeout: 120);
+            var response = await connection.QueryAsync<EmployeeAttendanceCounts>(commandDefinition);
             return response.ToList();
         }
     }

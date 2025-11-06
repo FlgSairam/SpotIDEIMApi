@@ -58,4 +58,20 @@
         public string? dashboard_copy { get; set; }
         public string? final_status { get; set; }
     }
+
+    public class EmployeeAttendanceCounts
+    {
+        public int Total_PresentCount { get; set; }
+        public int Total_LeaveCount { get; set; }
+        public int Total_AbsentCount { get; set; }
+        public int MR_PresentCount { get; set; }
+        public int MR_LeaveCount { get; set; }
+        public int MR_AbsentCount { get; set; }
+        public int SV_PresentCount { get; set; }
+        public int SV_LeaveCount { get; set; }
+        public int SV_AbsentCount { get; set; }
+        public int CI_PresentCount { get; set; }
+        public int CI_LeaveCount { get; set; }
+        public int CI_AbsentCount { get; set; }
+    }
 }
