@@ -25,7 +25,7 @@
         public long WorkLocationFid { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-        public DateTime CapturedTime { get; set; }
+        public string? CapturedTime { get; set; }
         public string? DeviceId { get; set; }
         public int BatteryLevel { get; set; }
         public int QryDate { get; set; }

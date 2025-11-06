@@ -19,6 +19,8 @@ builder.Services.AddScoped<EmployeePerformanceRepository>();
 builder.Services.AddScoped<AppUserRepository>();
 builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddScoped<UserCustomerMappingRepository>();
+builder.Services.AddScoped<PuvnlDataReportRepository>();
+
 
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddSingleton<DapperDbContext>();
